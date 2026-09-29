@@ -1,63 +1,112 @@
-# Frontend Setup (React Native CLI)
+# AI Study Assistant — Mobile App
 
-Tumhare paas already Node.js aur React Native CLI hai, to seedha steps follow karo:
+A React Native study assistant that supports account authentication, AI-powered chat, conversation history, and questions based on uploaded PDF or image notes.
 
-## Step 1 — Naya RN CLI project banao
-Apne `ai-study-assistant` folder ke bahar (ya kahi bhi) yeh chalao:
+## Features
+
+- User registration and login
+- AI-powered study chat
+- English, Hindi, and Hinglish questions
+- Conversation history and new chats
+- PDF and image uploads
+- Questions based on uploaded study notes
+- Responsive layouts with safe-area and keyboard handling
+
+## Requirements
+
+Install the following tools before running the project:
+
+- Node.js 22.11 or later
+- npm
+- JDK 17
+- Android Studio and the Android SDK
+- A running AI Study Assistant backend
+
+## Installation
+
+Clone the repository and install its dependencies:
+
 ```bash
-npx react-native init AIStudyAssistant
-cd AIStudyAssistant
+git clone https://github.com/khushikayath7-developer/ai-study-assistant-frontend.git
+cd ai-study-assistant-frontend
+npm install
 ```
 
-## Step 2 — Zaroori packages install karo
+## Backend configuration
+
+The backend URL is configured in `src/api/api.js`:
+
+```javascript
+export const BASE_URL = 'https://ai-study-assistant-backend-wzx9.onrender.com';
+```
+
+Use the appropriate URL when running a local backend:
+
+- Android Emulator: `http://10.0.2.2:8000`
+- Physical phone on the same Wi-Fi network: `http://YOUR_COMPUTER_IP:8000`
+- Hosted backend: use the deployed HTTPS URL
+
+## Run the Android app
+
+Start Metro in the project root:
+
 ```bash
-npm install axios @react-navigation/native @react-navigation/native-stack
-npm install react-native-screens react-native-safe-area-context
-npm install @react-native-async-storage/async-storage
-npm install @react-native-documents/picker
+npm start
 ```
 
-Android ke liye extra (agar Android pe test kar rahe ho):
+In a second terminal, run the application:
+
 ```bash
-npx react-native run-android
+npm run android
 ```
 
-## Step 3 — Iss folder (`frontend-src`) ki files copy karo
-`frontend-src/App.js` aur `frontend-src/src/` — dono ko apne naye
-`AIStudyAssistant` project me copy karo (App.js root me replace karo, src/ folder root me paste karo).
+## Build a release APK
 
-Final structure kuch aisa dikhega:
+On Windows, use the included build command. It avoids native build failures caused by long project paths and copies the completed APK back into the project:
+
+```bash
+npm run build:apk
 ```
+
+The generated APK will be available at:
+
+```text
+android/app/build/outputs/apk/release/app-release.apk
+```
+
+The current release configuration uses the Android debug keystore and is suitable for testing. Configure a private production signing key before publishing the application to Google Play.
+
+## Project structure
+
+```text
 AIStudyAssistant/
-├── App.js                <- replaced
+├── App.tsx
 ├── src/
-│   ├── api/api.js
-│   ├── context/AuthContext.js
-│   ├── navigation/AppNavigator.js
+│   ├── api/
+│   ├── components/
+│   ├── context/
+│   ├── navigation/
 │   └── screens/
-│       ├── LoginScreen.js
-│       ├── RegisterScreen.js
-│       ├── ChatScreen.js
-│       └── UploadScreen.js
 ├── android/
 ├── ios/
-└── ...
+└── scripts/
 ```
 
-## Step 4 — Backend URL set karo
-`src/api/api.js` file me `BASE_URL` check karo:
-- Android Emulator use kar rahe ho → `http://10.0.2.2:8000` (already set)
-- Real phone use kar rahe ho (same WiFi) → apne laptop ka IP daalo, e.g. `http://192.168.1.5:8000`
+## Troubleshooting
 
-## Step 5 — Run karo
-Pehle backend chalao (dusre terminal me), phir:
+### Reset the Metro cache
+
 ```bash
-npx react-native run-android
+npx react-native start --reset-cache
 ```
 
-Bas! App khulega -> Register karo -> Login karo -> AI se sawal pucho ya notes upload karo.
+### The app cannot connect to the backend
 
-## Agar koi error aaye
-- **Metro bundler issue**: `npx react-native start --reset-cache`
-- **Android build fail**: Android Studio + JDK 17 install hona chahiye, `ANDROID_HOME` env variable set hona chahiye
-- **Network error app me**: backend URL check karo (Step 4), aur backend `--host 0.0.0.0` se run ho raha ho
+- Confirm that the backend is running and accessible.
+- Verify `BASE_URL` in `src/api/api.js`.
+- Do not use `localhost` from a physical phone.
+- Confirm that the phone and development computer are on the same network when using a local IP address.
+
+### Android build requirements
+
+Confirm that JDK 17, Android Studio, the Android SDK, and the `ANDROID_HOME` environment variable are configured correctly.
