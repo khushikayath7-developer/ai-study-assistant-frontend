@@ -1,5 +1,7 @@
 # AI Study Assistant — Mobile App
 
+> React Native frontend for the AI Study Assistant application.
+
 A React Native study assistant that supports account authentication, AI-powered chat, conversation history, and questions based on uploaded PDF or image notes.
 
 ## Features
