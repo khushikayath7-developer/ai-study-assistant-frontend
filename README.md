@@ -1,97 +1,63 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Frontend Setup (React Native CLI)
 
-# Getting Started
+Tumhare paas already Node.js aur React Native CLI hai, to seedha steps follow karo:
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
-
-## Step 1: Start Metro
-
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
-
-To start the Metro dev server, run the following command from the root of your React Native project:
-
-```sh
-# Using npm
-npm start
-
-# OR using Yarn
-yarn start
+## Step 1 — Naya RN CLI project banao
+Apne `ai-study-assistant` folder ke bahar (ya kahi bhi) yeh chalao:
+```bash
+npx react-native init AIStudyAssistant
+cd AIStudyAssistant
 ```
 
-## Step 2: Build and run your app
-
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
+## Step 2 — Zaroori packages install karo
+```bash
+npm install axios @react-navigation/native @react-navigation/native-stack
+npm install react-native-screens react-native-safe-area-context
+npm install @react-native-async-storage/async-storage
+npm install @react-native-documents/picker
 ```
 
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
+Android ke liye extra (agar Android pe test kar rahe ho):
+```bash
+npx react-native run-android
 ```
 
-Then, and every time you update your native dependencies, run:
+## Step 3 — Iss folder (`frontend-src`) ki files copy karo
+`frontend-src/App.js` aur `frontend-src/src/` — dono ko apne naye
+`AIStudyAssistant` project me copy karo (App.js root me replace karo, src/ folder root me paste karo).
 
-```sh
-bundle exec pod install
+Final structure kuch aisa dikhega:
+```
+AIStudyAssistant/
+├── App.js                <- replaced
+├── src/
+│   ├── api/api.js
+│   ├── context/AuthContext.js
+│   ├── navigation/AppNavigator.js
+│   └── screens/
+│       ├── LoginScreen.js
+│       ├── RegisterScreen.js
+│       ├── ChatScreen.js
+│       └── UploadScreen.js
+├── android/
+├── ios/
+└── ...
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+## Step 4 — Backend URL set karo
+`src/api/api.js` file me `BASE_URL` check karo:
+- Android Emulator use kar rahe ho → `http://10.0.2.2:8000` (already set)
+- Real phone use kar rahe ho (same WiFi) → apne laptop ka IP daalo, e.g. `http://192.168.1.5:8000`
 
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
+## Step 5 — Run karo
+Pehle backend chalao (dusre terminal me), phir:
+```bash
+npx react-native run-android
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+Bas! App khulega -> Register karo -> Login karo -> AI se sawal pucho ya notes upload karo.
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+## Agar koi error aaye
+- **Metro bundler issue**: `npx react-native start --reset-cache`
+- **Android build fail**: Android Studio + JDK 17 install hona chahiye, `ANDROID_HOME` env variable set hona chahiye
+- **Network error app me**: backend URL check karo (Step 4), aur backend `--host 0.0.0.0` se run ho raha ho
